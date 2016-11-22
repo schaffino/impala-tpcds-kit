@@ -11,12 +11,8 @@ do
     -SCALE ${TPCDS_SCALE_FACTOR} \
     -DISTRIBUTIONS ${TPCDS_ROOT}/tools/tpcds.idx \
     -TERMINATE N \
-    -_FILTER Y \
-    -QUIET Y \
-    -DIR ${HOME} \
-    -FORCE Y
-
-    hadoop fs -put ${HOME}/${t}.dat ${FLATFILE_HDFS_ROOT}/${t}/${t}.dat &
+    -FILTER Y \
+    -QUIET Y | hadoop fs -put - ${FLATFILE_HDFS_ROOT}/${t}/${t}.dat &
 done
 wait
 

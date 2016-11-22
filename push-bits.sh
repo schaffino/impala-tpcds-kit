@@ -10,5 +10,5 @@ error_msg() {
 cat dn.txt | while read h
 do
   scp -rp $HOME/tpcds-kit $h:$HOME ||  { error_msg "Failed scping  $HOME/tpcds-kit  to $h " ; exit 1; }
-  scp -rp $HOME/impala-tpcds-kit $h:$HOME { error_msg "Failed scping  $HOME/impala-tpcds-kit  to $h " ; exit 1; }
+  scp -rp $HOME/impala-tpcds-kit $h:$HOME || { error_msg "Failed scping  $HOME/impala-tpcds-kit  to $h " ; exit 1; }
 done
