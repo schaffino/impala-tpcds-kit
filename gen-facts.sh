@@ -7,7 +7,7 @@ source ./nodenum.sh
 count=$DSDGEN_THREADS_PER_NODE
 
 start=(NODENUM-1)*$count+1
-
+pids=()
 for t in store_sales web_sales catalog_sales inventory
 do
 
@@ -23,8 +23,22 @@ do
       -TERMINATE N \
       -FILTER Y \
       -QUIET Y | hdfs dfs -put -  ${FLATFILE_HDFS_ROOT}/${t}/${t}_${c}_${DSDGEN_TOTAL_THREADS}.dat &
+    pids+=("$!")
   done
   
 done
-wait
+
+
+FAILURE=0
+for job in "${pids[@]}"
+do
+echo "waiting on  $job"
+wait $job || FALIURE=1
+done
+
+if [[ ${FAILURE} == 1 ]]; then
+   echo "ERROR:FAILURE DETECTED IN PROCESS"
+   exit 1
+fi
+
 

@@ -2,7 +2,7 @@
 source ./tpcds-env.sh
 
 echo ${HOME}
-
+pids=()
 for t in $dims
 do
   echo "Generating table $t"
@@ -13,6 +13,17 @@ do
     -TERMINATE N \
     -FILTER Y \
     -QUIET Y | hadoop fs -put - ${FLATFILE_HDFS_ROOT}/${t}/${t}.dat &
+    pids+=("$!")
 done
-wait
 
+FAILURE=0
+for job in "${pids[@]}"
+do
+echo "waiting on  $job"
+wait $job || FALIURE=1
+done
+
+if [[ ${FAILURE} == 1 ]]; then 
+   echo "ERROR:FAILURE DETECTED IN PROCESS"
+   exit 1
+fi
