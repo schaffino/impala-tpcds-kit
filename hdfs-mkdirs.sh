@@ -1,7 +1,8 @@
 #!/bin/bash
-source ./tpcds-env.sh
+source "${HOME}/impala-tpcds-kit/tpcds-env.sh"
 
 # make the table level dir
+hdfs dfs -rm -r -f ${FLATFILE_HDFS_ROOT} || { error_msg "Failed creating ${FLATFILE_HDFS_ROOT} "; exit 1; }
 hdfs dfs -mkdir -p ${FLATFILE_HDFS_ROOT} || { error_msg "Failed creating ${FLATFILE_HDFS_ROOT} "; exit 1; }
 
 # make a directory for each table

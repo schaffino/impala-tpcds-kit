@@ -9,7 +9,7 @@ error_msg() {
 
 
 n=1
-cat dn.txt | while read h
+cat "${HOME}/impala-tpcds-kit/dn.txt" | while read h
 do 
   echo "$h = $n"
   ssh $h "echo export NODENUM=${n} > $HOME/impala-tpcds-kit/nodenum.sh" < /dev/null  ||  { error_msg "Failed writing nodenumber to host $h "; exit 1; }

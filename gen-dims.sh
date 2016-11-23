@@ -1,5 +1,7 @@
 #!/bin/bash
-source ./tpcds-env.sh
+
+set -o pipefail
+source "${HOME}/impala-tpcds-kit/tpcds-env.sh" 
 
 echo ${HOME}
 pids=()
@@ -20,7 +22,7 @@ FAILURE=0
 for job in "${pids[@]}"
 do
 echo "waiting on  $job"
-wait $job || FALIURE=1
+wait $job || FAILURE=1
 done
 
 if [[ ${FAILURE} == 1 ]]; then 

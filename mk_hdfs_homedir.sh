@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./tpcds-env.sh
+source "${HOME}/impala-tpcds-kit//tpcds-env.sh"
 
 _ERR_HDR_FMT="%.23s %s[%s]: "
 _ERR_MSG_FMT="${_ERR_HDR_FMT}%s\n"
@@ -9,9 +9,9 @@ error_msg() {
 }
 
 
-
-sudo -u hdfs hdfs dfs -mkdir /user/$USER || { error_msg "Failed creating homedir "; exit 1; }
-
+echo "sudo -u hdfs hdfs dfs -mkdir -p /user/$USER"
+sudo -u hdfs hdfs dfs -mkdir -p /user/$USER || { error_msg "Failed creating homedir "; exit 1; }
+echo "sudo -u hdfs hdfs dfs -chown $USER /user/$USER"
 sudo -u hdfs hdfs dfs -chown $USER /user/$USER || { error_msg "Failed creating homedir "; exit 1; }
-
+echo "sudo -u hdfs hdfs dfs -chmod 777 /user/$USER"
 sudo -u hdfs hdfs dfs -chmod 777 /user/$USER || { error_msg "Failed creating homedir "; exit 1; }
